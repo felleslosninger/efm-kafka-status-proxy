@@ -8,6 +8,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.LongDeserializer
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.common.serialization.StringDeserializer
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -21,6 +22,8 @@ import reactor.kafka.sender.SenderOptions
 
 @Configuration
 class LoggingProxyConfig {
+    @Autowired
+    lateinit var properties: LoggingProxyProperties
 
     @Bean
     fun producerFactory(kafkaProperties: KafkaProperties): ProducerFactory<String, JsonNode> {
@@ -43,7 +46,7 @@ class LoggingProxyConfig {
     @Bean
     fun countListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<StatusKey, Long> {
         val props = mapOf(
-            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
+            ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to properties.bootstrapServer,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to LongDeserializer::class.java,
             ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",

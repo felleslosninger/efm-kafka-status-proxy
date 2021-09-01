@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component
 class LoggingProxyProperties {
     lateinit var logTopic: String
     lateinit var statusTopic: String
+    lateinit var bootstrapServer: String
     var consumeTopic: Boolean = false
     var enableAuth: Boolean = false
 }
