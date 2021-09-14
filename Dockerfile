@@ -8,8 +8,9 @@ ENV APP_DIR=/opt/logging-proxy \
 
 ADD /target/*.jar ${APP_DIR}/app.jar
 
+
 RUN chown -R java:java ${APP_DIR}
-RUN chmod +x ${APP_DIR}/*
+RUN chmod +x ${APP_DIR}/
 
 WORKDIR ${APP_DIR}
 USER java
